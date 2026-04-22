@@ -5,6 +5,8 @@ Two ways to manage your work - a visual board you can click around, and Claude w
 
 ## Install
 
+**Requires:** Mac with Apple Silicon (M1, M2, M3, or M4).
+
 Open **Terminal** (Cmd+Space, type "Terminal", hit Enter).
 
 Paste all 5 lines at once and hit Enter:

@@ -16,6 +16,13 @@ PLIST_DIR="$HOME_DIR/Library/LaunchAgents"
 echo "=== Claude Starter Kit ==="
 echo ""
 
+# Check architecture (binary is arm64 only)
+if [ "$(uname -m)" != "arm64" ]; then
+    echo "ERROR: This kit requires a Mac with Apple Silicon (M1/M2/M3/M4)."
+    echo "Your Mac is $(uname -m), which isn't supported."
+    exit 1
+fi
+
 # 1. Binary
 echo "[1/7] Installing tracker binary..."
 mkdir -p "$BIN_DIR"
