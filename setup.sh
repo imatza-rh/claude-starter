@@ -99,8 +99,7 @@ VP approved budget for user research in Q2 - starting with discovery.
 - Key risk: alert fatigue. Need granular controls from day 1
 
 ## Links
-- [Notification system PRD (v1)](https://docs.google.com/d/notifications-prd) - shipped MVP
-- [User research repository](https://notion.so/user-research) - interview insights
+(Add links to your docs, specs, and research here)
 
 ## Questions
 - [x] What's the technical lift for push vs in-app? -> Eng says 4-6 weeks with existing infra

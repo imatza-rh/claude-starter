@@ -2,6 +2,7 @@
 
 Your bigger-picture task queue. Move items between sections as things evolve.
 Check off or delete items when they're no longer relevant.
+(The items below are examples - replace them with your own.)
 
 ---
 

@@ -31,6 +31,12 @@ The Tracker app in your Dock opens the dashboard in your browser. If you want it
 
 **Chrome** - Open http://localhost:8745 in Chrome. You'll see an install icon (a small monitor with a down arrow) in the address bar - click it and confirm. This adds it to your apps with its own window.
 
+## Getting Started
+
+The tracker comes with **example data** so you can see how everything works right away - sample tasks, meetings, a topic, and quarterly achievements. This is placeholder content to show you the format and structure.
+
+**Make it yours:** Replace the examples with your real work. Update the backlog with your actual priorities, add your real meetings, swap the quarterly achievements for your own (the STAR format is there to guide you). The more you use it with your real data, the more useful it becomes.
+
 ## What You Get
 
 ### The Dashboard (http://localhost:8745)

@@ -2,6 +2,7 @@
 
 Add discussion topics as they come up between meetings.
 Check them off during or after, so you know what was covered.
+(The meetings below are examples - replace them with your own.)
 
 ---
 
