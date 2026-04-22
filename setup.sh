@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Claude Starter Kit - One-command installer
-# Installs: tracker web UI + Claude Cowork/Code skill + template files
+# Installs: tracker web UI + Claude Cowork/Code skill + template files + Tracker app
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 HOME_DIR="$HOME"
@@ -12,6 +12,8 @@ SKILLS_DIR="$HOME_DIR/.claude/skills/tracker"
 CLAUDE_MD="$HOME_DIR/.claude/CLAUDE.md"
 PLIST_NAME="com.tracker-web"
 PLIST_DIR="$HOME_DIR/Library/LaunchAgents"
+TRACKER_URL="http://localhost:8745"
+APP_DIR="$HOME_DIR/Applications/Tracker.app"
 
 echo "=== Claude Starter Kit ==="
 echo ""
@@ -24,7 +26,7 @@ if [ "$(uname -m)" != "arm64" ]; then
 fi
 
 # 1. Binary
-echo "[1/7] Installing tracker binary..."
+echo "[1/8] Installing tracker binary..."
 mkdir -p "$BIN_DIR"
 cp "$SCRIPT_DIR/bin/tracker" "$BIN_DIR/tracker"
 chmod +x "$BIN_DIR/tracker"
@@ -32,7 +34,7 @@ xattr -d com.apple.quarantine "$BIN_DIR/tracker" 2>/dev/null || true
 echo "  -> $BIN_DIR/tracker"
 
 # 2. Tracker directory + templates
-echo "[2/7] Setting up tracker files..."
+echo "[2/8] Setting up tracker files..."
 mkdir -p "$TRACKER_DIR/topics"
 for f in daily-log.md backlog.md meetings.md; do
     if [ ! -f "$TRACKER_DIR/$f" ]; then
@@ -50,13 +52,13 @@ if ! grep -q "^## " "$TRACKER_DIR/daily-log.md" 2>/dev/null; then
 fi
 
 # 3. Skill
-echo "[3/7] Installing tracker skill..."
+echo "[3/8] Installing tracker skill..."
 mkdir -p "$SKILLS_DIR"
 cp "$SCRIPT_DIR/claude/skills/tracker/SKILL.md" "$SKILLS_DIR/SKILL.md"
 echo "  -> $SKILLS_DIR/SKILL.md"
 
 # 4. CLAUDE.md
-echo "[4/7] Setting up CLAUDE.md..."
+echo "[4/8] Setting up CLAUDE.md..."
 mkdir -p "$(dirname "$CLAUDE_MD")"
 if [ ! -f "$CLAUDE_MD" ]; then
     cp "$SCRIPT_DIR/claude/CLAUDE.md" "$CLAUDE_MD"
@@ -70,26 +72,66 @@ else
 fi
 
 # 5. LaunchAgent
-echo "[5/7] Setting up auto-start service..."
+echo "[5/8] Setting up auto-start service..."
 mkdir -p "$PLIST_DIR"
 PLIST_FILE="$PLIST_DIR/$PLIST_NAME.plist"
 sed "s|__HOME__|$HOME_DIR|g" "$SCRIPT_DIR/launchd/$PLIST_NAME.plist" > "$PLIST_FILE"
 echo "  -> $PLIST_FILE"
 
 # 6. Load service
-echo "[6/7] Starting tracker web service..."
+echo "[6/8] Starting tracker web service..."
 launchctl unload "$PLIST_FILE" 2>/dev/null || true
 launchctl load "$PLIST_FILE"
 echo "  -> Service loaded (auto-starts on login)"
 
-# 7. Open browser
-echo "[7/7] Opening tracker..."
+# 7. Tracker.app
+echo "[7/8] Creating Tracker app..."
+mkdir -p "$APP_DIR/Contents/MacOS" "$APP_DIR/Contents/Resources"
+
+cat > "$APP_DIR/Contents/MacOS/Tracker" << 'APPSCRIPT'
+#!/bin/bash
+open "http://localhost:8745"
+APPSCRIPT
+chmod +x "$APP_DIR/Contents/MacOS/Tracker"
+
+cat > "$APP_DIR/Contents/Info.plist" << PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>Tracker</string>
+    <key>CFBundleDisplayName</key>
+    <string>Tracker</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.tracker.app</string>
+    <key>CFBundleVersion</key>
+    <string>1.0</string>
+    <key>CFBundleExecutable</key>
+    <string>Tracker</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+</dict>
+</plist>
+PLIST
+
+if [ -f "$SCRIPT_DIR/bin/AppIcon.icns" ]; then
+    cp "$SCRIPT_DIR/bin/AppIcon.icns" "$APP_DIR/Contents/Resources/AppIcon.icns"
+fi
+xattr -d com.apple.quarantine "$APP_DIR" 2>/dev/null || true
+echo "  -> $APP_DIR"
+echo "     Tip: drag it to your Dock for one-click access"
+
+# 8. Open tracker
+echo "[8/8] Opening tracker..."
 STARTED=false
 for i in $(seq 1 6); do
     sleep 1
-    if curl -s http://localhost:8745/api/health > /dev/null 2>&1; then
-        open "http://localhost:8745"
-        echo "  -> Opened http://localhost:8745"
+    if curl -s "$TRACKER_URL/api/health" > /dev/null 2>&1; then
+        open "$TRACKER_URL"
+        echo "  -> Opened $TRACKER_URL"
         STARTED=true
         break
     fi
@@ -103,8 +145,9 @@ echo ""
 echo "=== Done! ==="
 echo ""
 echo "Your tracker is ready:"
-echo "  Web UI:  http://localhost:8745  (always running in background)"
-echo "  Files:   $TRACKER_DIR/"
+echo "  Tracker app:  ~/Applications/Tracker.app  (drag to Dock!)"
+echo "  Web UI:       $TRACKER_URL  (always running)"
+echo "  Files:        $TRACKER_DIR/"
 echo ""
 echo "Claude Cowork/Desktop will automatically use the tracker skill"
 echo "when you ask about tasks, priorities, or work planning."
@@ -114,7 +157,7 @@ echo ""
 
 # Check if ~/.local/bin is in PATH
 if ! echo "$PATH" | grep -q "$BIN_DIR"; then
-    echo "NOTE: To use the tracker command in Terminal, add this to your shell config:"
+    echo "NOTE: To use the 'tracker' command in Terminal, add this to your shell config:"
     echo ""
     echo "  echo 'export PATH=\"\$HOME/.local/bin:\$PATH\"' >> ~/.zshrc"
     echo "  source ~/.zshrc"

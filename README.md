@@ -19,9 +19,17 @@ cd claude-starter-main
 bash setup.sh
 ```
 
-Done. The dashboard opens in your browser.
+Done. The dashboard opens in your browser, and a **Tracker** app appears in your Applications folder.
 
-> **Tip:** Bookmark http://localhost:8745 for quick access. That's your dashboard - it runs in the background and starts automatically when your Mac boots.
+> **First thing to do:** Open Finder, go to Applications, find **Tracker**, and drag it to your Dock. That's your one-click shortcut from now on.
+
+## Pin It (Optional)
+
+The Tracker app in your Dock opens the dashboard in your browser. If you want it to feel more like a native app (no address bar, no tabs), you can pin it:
+
+**Safari** (macOS Sonoma or later) - Open http://localhost:8745 in Safari, then go to **File > Add to Dock**. This creates a standalone app window.
+
+**Chrome** - Open http://localhost:8745 in Chrome, click the three dots menu (top right), then **Save and Share > Install page as app**. This adds it to your apps with its own window.
 
 ## What You Get
 
@@ -35,7 +43,7 @@ A web app running locally on your Mac with five views:
 
 **Topics** - For work that spans multiple days. Think of these as mini-workspaces - a product launch, a hiring round, a feature spec. Each topic has its own tasks, notes, links, and open questions.
 
-**Meetings** - Keep a running list of things to discuss for each recurring meeting. When something comes up mid-week, add it here so you don't forget by the time the meeting rolls around.
+**Meetings** - Keep a running list of things to discuss for each recurring meeting. When something comes up mid-week, add it here so you don't forget by the meeting.
 
 **Dashboard** - A summary view: today's progress, active topics, what needs attention.
 
@@ -58,7 +66,7 @@ Claude and the dashboard share the same data. Update one, the other sees it inst
 
 ## Your Typical Day
 
-**Morning** - Open the dashboard or ask Claude "what's on my plate?" to see where you left off.
+**Morning** - Click the Tracker icon in your Dock, or ask Claude "what's on my plate?" to see where you left off.
 
 **During the day** - Check things off in the dashboard, or tell Claude "I finished X". Add new tasks as they come up.
 
@@ -91,4 +99,5 @@ launchctl unload ~/Library/LaunchAgents/com.tracker-web.plist
 rm ~/Library/LaunchAgents/com.tracker-web.plist
 rm ~/.local/bin/tracker
 rm -rf ~/.claude/skills/tracker
+rm -rf ~/Applications/Tracker.app
 ```
