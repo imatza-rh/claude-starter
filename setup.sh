@@ -36,7 +36,7 @@ echo "  -> $BIN_DIR/tracker"
 # 2. Tracker directory + templates
 echo "[2/8] Setting up tracker files..."
 mkdir -p "$TRACKER_DIR/topics"
-for f in daily-log.md backlog.md meetings.md; do
+for f in daily-log.md backlog.md meetings.md quarterly.md; do
     if [ ! -f "$TRACKER_DIR/$f" ]; then
         cp "$SCRIPT_DIR/templates/$f" "$TRACKER_DIR/$f"
         echo "  -> Created $TRACKER_DIR/$f"
@@ -48,7 +48,66 @@ done
 # Add today's date section to fresh daily log
 if ! grep -q "^## " "$TRACKER_DIR/daily-log.md" 2>/dev/null; then
     TODAY=$(date +%Y-%m-%d)
-    printf "\n## %s\n\n- [x] Set up my personal tracker\n- [ ] Explore the dashboard at http://localhost:8745\n" "$TODAY" >> "$TRACKER_DIR/daily-log.md"
+    YESTERDAY=$(date -v-1d +%Y-%m-%d)
+    cat >> "$TRACKER_DIR/daily-log.md" << DAILYEOF
+
+## $TODAY
+
+- [x] Set up personal tracker and Claude integration
+- [ ] Finalize PRD for self-serve onboarding
+- [ ] Review design mocks for settings page
+
+## $YESTERDAY
+
+- [x] Wrote user interview questions for push notifications
+- [x] Prepped stakeholder update deck for Friday
+- [x] Reviewed 3 design iterations for onboarding flow
+- [ ] Draft Q3 roadmap priorities
+  Pushed to next week - waiting on eng capacity estimates
+DAILYEOF
+fi
+
+# Create sample topic if none exist
+if [ -z "$(ls -A "$TRACKER_DIR/topics" 2>/dev/null)" ]; then
+    TOPIC_DIR="$TRACKER_DIR/topics/mobile-push-notifications"
+    mkdir -p "$TOPIC_DIR"
+    cat > "$TOPIC_DIR/topic.md" << 'TOPICEOF'
+# Mobile Push Notifications
+
+<!-- status: active -->
+<!-- created: 2026-04-20 | updated: 2026-04-22 -->
+
+Q3 priority #1. Extending our in-app notification system to mobile push.
+VP approved budget for user research in Q2 - starting with discovery.
+
+## Status
+**State**: Research & discovery
+**Next**: Schedule first round of user interviews
+
+## Tasks
+- [x] Review competitor push notification UX (Slack, Linear, Notion)
+- [x] Pull analytics on email notification open rates by category
+- [ ] Write user interview guide for push notification preferences
+- [ ] Schedule 8 user interviews across segments
+- [ ] Define notification categories and default preferences
+- [ ] Draft PRD with eng for technical feasibility review
+- [ ] Design opt-in flow mockups with design team
+
+## Notes
+- Email open rate is 23% overall, but 67% for payment-related - users DO want alerts, just not all of them
+- Competitor analysis: Slack lets users set per-channel preferences, Linear does smart batching
+- Key risk: alert fatigue. Need granular controls from day 1
+
+## Links
+- [Notification system PRD (v1)](https://docs.google.com/d/notifications-prd) - shipped MVP
+- [User research repository](https://notion.so/user-research) - interview insights
+
+## Questions
+- [x] What's the technical lift for push vs in-app? -> Eng says 4-6 weeks with existing infra
+- [ ] Should we support Android and iOS simultaneously or phase?
+- [ ] Do we need a notification preferences page or inline controls?
+TOPICEOF
+    echo "  -> Created sample topic: mobile-push-notifications"
 fi
 
 # 3. Skill
@@ -79,7 +138,7 @@ cat > "$APP_DIR/Contents/MacOS/Tracker" << 'APPSCRIPT'
 #!/bin/bash
 URL="http://localhost:8745"
 if ! curl -s "$URL/api/health" > /dev/null 2>&1; then
-    TRACKER_VIEWS="dashboard,daily,backlog,topics,meetings" ~/.local/bin/tracker serve --no-browser &
+    TRACKER_VIEWS="dashboard,daily,backlog,topics,meetings,quarterly" ~/.local/bin/tracker serve --no-browser &
     for i in 1 2 3 4 5; do
         sleep 1
         curl -s "$URL/api/health" > /dev/null 2>&1 && break

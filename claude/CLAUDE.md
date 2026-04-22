@@ -23,6 +23,7 @@ in `~/.claude/tracker/`. There's also a web dashboard at http://localhost:8745.
 - `daily-log.md` - rolling daily work log (newest date first)
 - `backlog.md` - cross-project task queue with sections
 - `meetings.md` - recurring meeting prep and outcomes
+- `quarterly.md` - achievements, goals, and growth per quarter
 - `topics/` - active work contexts (one directory per topic)
 
 **Format rules:**

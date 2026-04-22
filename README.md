@@ -35,7 +35,7 @@ The Tracker app in your Dock opens the dashboard in your browser. If you want it
 
 ### The Dashboard (http://localhost:8745)
 
-A web app running locally on your Mac with five views:
+A web app running locally on your Mac with six views:
 
 **Daily Log** - Your today list. Add tasks, check them off. Anything left open carries forward to tomorrow.
 
@@ -44,6 +44,8 @@ A web app running locally on your Mac with five views:
 **Topics** - For work that spans multiple days. Think of these as mini-workspaces - a product launch, a hiring round, a feature spec. Each topic has its own tasks, notes, links, and open questions.
 
 **Meetings** - Keep a running list of things to discuss for each recurring meeting. When something comes up mid-week, add it here so you don't forget by the meeting.
+
+**Quarterly** - Track your achievements, goals, and growth each quarter. Useful for performance reviews and self-assessments. Capture wins in STAR format while they're fresh.
 
 **Dashboard** - A summary view: today's progress, active topics, what needs attention.
 
@@ -61,6 +63,8 @@ Once installed, Claude (in Cowork or Desktop) knows about your tracker. Just tal
 | Prep for a meeting | "What do I have for my 1:1?" |
 | End-of-week cleanup | "Let's do a weekly review" |
 | Quick status | "How's my tracker looking?" |
+| Review your quarter | "Show me my Q2 achievements" |
+| Prep for a review | "Help me prep for my performance review" |
 
 Claude and the dashboard share the same data. Update one, the other sees it instantly.
 

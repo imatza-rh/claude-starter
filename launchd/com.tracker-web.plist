@@ -23,7 +23,7 @@
         <key>HOME</key>
         <string>__HOME__</string>
         <key>TRACKER_VIEWS</key>
-        <string>dashboard,daily,backlog,topics,meetings</string>
+        <string>dashboard,daily,backlog,topics,meetings,quarterly</string>
     </dict>
 </dict>
 </plist>

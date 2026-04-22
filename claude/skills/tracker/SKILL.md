@@ -1,7 +1,7 @@
 ---
 name: tracker
-description: "Personal task tracker - daily work log, backlog, topics (active work context), meetings, weekly review, stats. Use when the user asks about today's work, tasks, priorities, backlog, topics, meetings, or weekly planning."
-argument-hint: "[daily|backlog|topics|weekly|stats|search|status] [args]"
+description: "Personal task tracker - daily work log, backlog, topics (active work context), meetings, quarterly achievements/goals, weekly review, stats. Use when the user asks about today's work, tasks, priorities, backlog, topics, meetings, quarterly goals, achievements, performance reviews, or weekly planning."
+argument-hint: "[daily|backlog|topics|quarterly|weekly|stats|search|status] [args]"
 allowed-tools: Read, Edit, Write, Bash(date:*), Glob, Grep
 ---
 
@@ -24,6 +24,11 @@ Daily log (most recent entries):
 
 ```
 !cat ~/.claude/tracker/meetings.md 2>/dev/null || echo "(empty)"
+```
+
+Quarterly (current quarter):
+```
+!tail -80 ~/.claude/tracker/quarterly.md 2>/dev/null || echo "(empty)"
 ```
 
 Topics (active work context):
@@ -183,6 +188,33 @@ Examples:
 - `/tracker topics roadmap + schedule stakeholder interviews` → add task
 - `/tracker topics roadmap x2` → mark task 2 done
 - `/tracker topics roadmap done` → close topic
+
+Keep output minimal.
+
+---
+
+### `quarterly` → Quarterly Tracker
+
+Manage quarterly goals and achievements at `~/.claude/tracker/quarterly.md`.
+
+Strip the word "quarterly" from arguments, then:
+
+**No remaining args** - show the current quarter's goals, key achievements count, and any empty sections that need attention.
+
+**With remaining args:**
+- `+ <text>` → add achievement to Key Achievements (use STAR format: **[What]**: Situation - Action - Result)
+- `goal <text>` → add to Goals
+- `proud <text>` → add to Proud Of
+- `growth <text>` → add to Growth & Learning
+- `challenge <text>` → add to Challenges
+- `plan <text>` → add to Next Quarter Plans
+- `review` → walk through the quarter interactively: review goals progress, suggest missing achievements, identify gaps for performance review prep
+
+Examples:
+- `/tracker quarterly` → show current quarter overview
+- `/tracker quarterly + Led mobile push notification research` → add achievement
+- `/tracker quarterly goal Ship notifications MVP` → add goal
+- `/tracker quarterly review` → prep for performance review
 
 Keep output minimal.
 
