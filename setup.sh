@@ -18,9 +18,13 @@ APP_DIR="$HOME_DIR/Applications/Tracker.app"
 echo "=== Claude Starter Kit ==="
 echo ""
 
-# Check architecture (binary is arm64 only)
+# Check macOS + Apple Silicon
+if [ "$(uname -s)" != "Darwin" ]; then
+    echo "ERROR: This kit requires macOS. You're running $(uname -s)."
+    exit 1
+fi
 if [ "$(uname -m)" != "arm64" ]; then
-    echo "ERROR: This kit requires a Mac with Apple Silicon (M1/M2/M3/M4)."
+    echo "ERROR: This kit requires Apple Silicon (M1/M2/M3/M4)."
     echo "Your Mac is $(uname -m), which isn't supported."
     exit 1
 fi
@@ -71,11 +75,14 @@ fi
 if [ -z "$(ls -A "$TRACKER_DIR/topics" 2>/dev/null)" ]; then
     TOPIC_DIR="$TRACKER_DIR/topics/mobile-push-notifications"
     mkdir -p "$TOPIC_DIR"
-    cat > "$TOPIC_DIR/topic.md" << 'TOPICEOF'
+    CREATED=$(date -v-2d +%Y-%m-%d)
+    cat > "$TOPIC_DIR/topic.md" << TOPICEOF
 # Mobile Push Notifications
 
 <!-- status: active -->
-<!-- created: 2026-04-20 | updated: 2026-04-22 -->
+<!-- created: $CREATED | updated: $TODAY -->
+
+(Example topic - replace with your own project or delete this one.)
 
 Q3 priority #1. Extending our in-app notification system to mobile push.
 VP approved budget for user research in Q2 - starting with discovery.
