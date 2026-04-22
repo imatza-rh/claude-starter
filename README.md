@@ -8,11 +8,22 @@ A personal task tracker with a web dashboard and Claude Cowork/Desktop integrati
 - **Claude Integration** - ask Claude about your tasks, priorities, and planning
 - **Plain Markdown** - your data is simple text files, never locked in a proprietary format
 
-## Setup (One Command)
+## Setup
 
-Open **Terminal** (Cmd+Space, type "Terminal") and run:
+Open **Terminal** (press Cmd+Space, type "Terminal", press Enter) and paste these commands:
 
+**Option A: With git**
 ```bash
+git clone https://github.com/imatza-rh/claude-starter.git
+cd claude-starter
+bash setup.sh
+```
+
+**Option B: Without git**
+
+Download the zip from https://github.com/imatza-rh/claude-starter/archive/refs/heads/main.zip, double-click to extract, then:
+```bash
+cd ~/Downloads/claude-starter-main
 bash setup.sh
 ```
 

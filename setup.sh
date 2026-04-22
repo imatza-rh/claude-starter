@@ -26,7 +26,7 @@ echo "  -> $BIN_DIR/tracker"
 
 # 2. Tracker directory + templates
 echo "[2/7] Setting up tracker files..."
-mkdir -p "$TRACKER_DIR"
+mkdir -p "$TRACKER_DIR/topics"
 for f in daily-log.md backlog.md meetings.md; do
     if [ ! -f "$TRACKER_DIR/$f" ]; then
         cp "$SCRIPT_DIR/templates/$f" "$TRACKER_DIR/$f"
@@ -44,13 +44,16 @@ echo "  -> $SKILLS_DIR/SKILL.md"
 
 # 4. CLAUDE.md
 echo "[4/7] Setting up CLAUDE.md..."
+mkdir -p "$(dirname "$CLAUDE_MD")"
 if [ ! -f "$CLAUDE_MD" ]; then
-    mkdir -p "$(dirname "$CLAUDE_MD")"
     cp "$SCRIPT_DIR/claude/CLAUDE.md" "$CLAUDE_MD"
     echo "  -> Created $CLAUDE_MD"
+elif ! grep -q "Task Tracker" "$CLAUDE_MD"; then
+    echo "" >> "$CLAUDE_MD"
+    sed -n '/^## Task Tracker/,$ p' "$SCRIPT_DIR/claude/CLAUDE.md" >> "$CLAUDE_MD"
+    echo "  -> Appended tracker section to existing $CLAUDE_MD"
 else
-    echo "  -> $CLAUDE_MD already exists, skipping"
-    echo "     (You can manually merge from $SCRIPT_DIR/claude/CLAUDE.md)"
+    echo "  -> $CLAUDE_MD already has tracker section, skipping"
 fi
 
 # 5. LaunchAgent
@@ -68,20 +71,19 @@ echo "  -> Service loaded (auto-starts on login)"
 
 # 7. Open browser
 echo "[7/7] Opening tracker..."
-sleep 1
-if curl -s http://localhost:8745/api/health > /dev/null 2>&1; then
-    open "http://localhost:8745"
-    echo "  -> Opened http://localhost:8745"
-else
-    echo "  -> Waiting for server to start..."
-    for i in $(seq 1 5); do
-        sleep 1
-        if curl -s http://localhost:8745/api/health > /dev/null 2>&1; then
-            open "http://localhost:8745"
-            echo "  -> Opened http://localhost:8745"
-            break
-        fi
-    done
+STARTED=false
+for i in $(seq 1 6); do
+    sleep 1
+    if curl -s http://localhost:8745/api/health > /dev/null 2>&1; then
+        open "http://localhost:8745"
+        echo "  -> Opened http://localhost:8745"
+        STARTED=true
+        break
+    fi
+done
+if [ "$STARTED" = false ]; then
+    echo "  -> WARNING: Web server didn't start. Check /tmp/tracker-web.log for errors."
+    echo "     You may need to allow the binary in System Settings > Privacy & Security."
 fi
 
 echo ""
