@@ -71,26 +71,21 @@ else
     echo "  -> $CLAUDE_MD already has tracker section, skipping"
 fi
 
-# 5. LaunchAgent
-echo "[5/8] Setting up auto-start service..."
-mkdir -p "$PLIST_DIR"
-PLIST_FILE="$PLIST_DIR/$PLIST_NAME.plist"
-sed "s|__HOME__|$HOME_DIR|g" "$SCRIPT_DIR/launchd/$PLIST_NAME.plist" > "$PLIST_FILE"
-echo "  -> $PLIST_FILE"
-
-# 6. Load service
-echo "[6/8] Starting tracker web service..."
-launchctl unload "$PLIST_FILE" 2>/dev/null || true
-launchctl load "$PLIST_FILE"
-echo "  -> Service loaded (auto-starts on login)"
-
-# 7. Tracker.app
-echo "[7/8] Creating Tracker app..."
+# 5. Tracker.app (created before service so it exists even if launchctl fails)
+echo "[5/8] Creating Tracker app..."
 mkdir -p "$APP_DIR/Contents/MacOS" "$APP_DIR/Contents/Resources"
 
 cat > "$APP_DIR/Contents/MacOS/Tracker" << 'APPSCRIPT'
 #!/bin/bash
-open "http://localhost:8745"
+URL="http://localhost:8745"
+if ! curl -s "$URL/api/health" > /dev/null 2>&1; then
+    TRACKER_VIEWS="dashboard,daily,backlog,topics,meetings" ~/.local/bin/tracker serve --no-browser &
+    for i in 1 2 3 4 5; do
+        sleep 1
+        curl -s "$URL/api/health" > /dev/null 2>&1 && break
+    done
+fi
+open "$URL"
 APPSCRIPT
 chmod +x "$APP_DIR/Contents/MacOS/Tracker"
 
@@ -120,9 +115,23 @@ PLIST
 if [ -f "$SCRIPT_DIR/bin/AppIcon.icns" ]; then
     cp "$SCRIPT_DIR/bin/AppIcon.icns" "$APP_DIR/Contents/Resources/AppIcon.icns"
 fi
-xattr -d com.apple.quarantine "$APP_DIR" 2>/dev/null || true
+xattr -dr com.apple.quarantine "$APP_DIR" 2>/dev/null || true
+mdimport "$APP_DIR" 2>/dev/null || true
 echo "  -> $APP_DIR"
-echo "     Tip: drag it to your Dock for one-click access"
+echo "     Tip: Cmd+Space, type 'Tracker' to launch. Then keep in Dock!"
+
+# 6. LaunchAgent
+echo "[6/8] Setting up auto-start service..."
+mkdir -p "$PLIST_DIR"
+PLIST_FILE="$PLIST_DIR/$PLIST_NAME.plist"
+sed "s|__HOME__|$HOME_DIR|g" "$SCRIPT_DIR/launchd/$PLIST_NAME.plist" > "$PLIST_FILE"
+echo "  -> $PLIST_FILE"
+
+# 7. Load service
+echo "[7/8] Starting tracker web service..."
+launchctl unload "$PLIST_FILE" 2>/dev/null || true
+launchctl load "$PLIST_FILE"
+echo "  -> Service loaded (auto-starts on login)"
 
 # 8. Open tracker
 echo "[8/8] Opening tracker..."
@@ -145,7 +154,7 @@ echo ""
 echo "=== Done! ==="
 echo ""
 echo "Your tracker is ready:"
-echo "  Tracker app:  ~/Applications/Tracker.app  (drag to Dock!)"
+echo "  Tracker app:  Cmd+Space, type 'Tracker', hit Enter  (then keep in Dock!)"
 echo "  Web UI:       $TRACKER_URL  (always running)"
 echo "  Files:        $TRACKER_DIR/"
 echo ""

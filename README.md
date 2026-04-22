@@ -13,7 +13,7 @@ Paste all 5 lines at once and hit Enter:
 
 ```
 cd ~/Downloads
-curl -sL https://github.com/imatza-rh/claude-starter/archive/refs/heads/main.zip -o claude-starter.zip
+curl -sfL https://github.com/imatza-rh/claude-starter/archive/refs/heads/main.zip -o claude-starter.zip
 unzip -qo claude-starter.zip
 cd claude-starter-main
 bash setup.sh
@@ -21,7 +21,7 @@ bash setup.sh
 
 Done. The dashboard opens in your browser, and a **Tracker** app appears in your Applications folder.
 
-> **First thing to do:** Open Finder, go to Applications, find **Tracker**, and drag it to your Dock. That's your one-click shortcut from now on.
+> **First thing to do:** Press Cmd+Space, type **Tracker**, and hit Enter - it opens the dashboard. Then right-click the Tracker icon in your Dock and choose **Options > Keep in Dock**. That's your one-click shortcut from now on.
 
 ## Pin It (Optional)
 
@@ -29,7 +29,7 @@ The Tracker app in your Dock opens the dashboard in your browser. If you want it
 
 **Safari** (macOS Sonoma or later) - Open http://localhost:8745 in Safari, then go to **File > Add to Dock**. This creates a standalone app window.
 
-**Chrome** - Open http://localhost:8745 in Chrome, click the three dots menu (top right), then **Save and Share > Install page as app**. This adds it to your apps with its own window.
+**Chrome** - Open http://localhost:8745 in Chrome. You'll see an install icon (a small monitor with a down arrow) in the address bar - click it and confirm. This adds it to your apps with its own window.
 
 ## What You Get
 
