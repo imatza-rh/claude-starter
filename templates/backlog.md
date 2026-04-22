@@ -1,25 +1,27 @@
 # Backlog
 
-Cross-project planning and task queue. Move items between sections
-as their status changes. Delete when no longer relevant.
-Indented lines under an item are notes (details, context).
+Your bigger-picture task queue. Move items between sections as things evolve.
+Check off or delete items when they're no longer relevant.
 
 ---
 
-## Priority Focus
-What matters most right now.
+## This Week
+What you're focused on right now.
 
-## To Do
-Concrete actionable tasks.
+- [ ] Set up your tracker - explore the dashboard, try adding a few tasks
+- [ ] Ask Claude "what's on my plate?" to see how the integration works
 
-## Ideas
-Potential projects, experiments, approaches. Not committed yet.
+## Next Up
+Things you'll get to soon but not this week.
 
-## Follow Up
-People to ping, threads to revisit, decisions pending external input.
+## Ideas & Research
+Things worth exploring. Feature ideas, user insights, experiments.
+
+## Stakeholder Requests
+Asks from other teams or leadership. Track them here so nothing falls through.
 
 ## Waiting On
-Blocked items - who/what is blocking and expected timeline.
+Blocked items - note who or what you're waiting for.
 
 ## Done
-Completed items preserved for history. Prune periodically.
+Completed items. Prune when it gets long.

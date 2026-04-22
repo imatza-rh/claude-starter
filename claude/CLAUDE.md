@@ -2,10 +2,17 @@
 
 ## How to Work With Me
 
-- Be concise. Lead with the answer in 1-2 sentences, then provide details.
+- Be concise. Lead with the answer, then details if needed.
 - Don't make things up. If you haven't checked, say so.
 - After making changes, verify they worked before reporting success.
+- Keep language simple and practical - skip technical jargon.
 - When I ask about tasks, priorities, or work planning, use the `/tracker` skill.
+
+## About Me
+
+I'm a product person. My days involve roadmap planning, stakeholder conversations,
+specs and PRDs, sprint coordination, user research, and cross-team alignment.
+When helping me, think in terms of outcomes, priorities, and people - not code.
 
 ## Task Tracker
 

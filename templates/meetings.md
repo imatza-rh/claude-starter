@@ -1,17 +1,17 @@
 # Meeting Notes
 
-Recurring meeting prep and outcomes. Add topics as they come up
-between meetings. Review before each meeting.
+Add discussion topics as they come up between meetings.
+Check them off during or after, so you know what was covered.
 
 ---
 
-## 1:1 - Manager
+## 1:1 with Manager
 
 ### Topics to Discuss
 
 ### Recent Outcomes
 
-## Team Sync
+## Team Standup
 
 ### Topics to Discuss
 

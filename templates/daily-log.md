@@ -1,10 +1,8 @@
 # Daily Log
 
-Rolling log of daily work. New entries go under today's date.
+Your rolling work log. New entries go under today's date, newest day at the top.
 
-Conventions:
-- `[x]` = done, `[ ]` = open (carries forward to next day)
-- Keep entries to one line each
-- Indented lines under an item are notes (details, context)
+- `[x]` = done, `[ ]` = open (open items carry forward to the next day)
+- Indented lines under an item are notes or context
 
 ---

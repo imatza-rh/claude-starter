@@ -36,6 +36,12 @@ for f in daily-log.md backlog.md meetings.md; do
     fi
 done
 
+# Add today's date section to fresh daily log
+if ! grep -q "^## " "$TRACKER_DIR/daily-log.md" 2>/dev/null; then
+    TODAY=$(date +%Y-%m-%d)
+    printf "\n## %s\n\n- [x] Set up my personal tracker\n- [ ] Explore the dashboard at http://localhost:8745\n" "$TODAY" >> "$TRACKER_DIR/daily-log.md"
+fi
+
 # 3. Skill
 echo "[3/7] Installing tracker skill..."
 mkdir -p "$SKILLS_DIR"

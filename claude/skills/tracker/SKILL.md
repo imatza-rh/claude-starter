@@ -9,6 +9,8 @@ Personal productivity tracker. Routes based on first argument.
 
 **Web UI**: The tracker also has a web dashboard at http://localhost:8745 (if running). Both Claude and the web UI read/write the same markdown files - changes sync instantly.
 
+**If the tracker is mostly empty**: This is a new setup. Don't just say "nothing here" - help the user get started. Suggest adding their first few tasks, creating a topic for something they're working on, or setting up their meeting list. Be welcoming, not clinical.
+
 ## Tracker State
 
 Daily log (most recent entries):
@@ -50,8 +52,9 @@ Morning overview combining tracker state into a single view.
 
 ## Today
 <progress-bar> N/M done (X%)
-<!-- List today's items with numbers. If no section for today, show
-     "No entries yet - add one with /tracker daily + <task>". -->
+<!-- List today's items with numbers. If no section for today, create
+     one and suggest: "Your day is wide open! Want to add a few things
+     you're working on?" -->
 
 ## Active Topics
 <!-- List each topic: name, task progress (done/total), status one-liner.
@@ -108,7 +111,7 @@ Strip the word "backlog" from arguments, then:
 **No remaining args** - show all non-empty sections with item counts.
 
 **With remaining args:**
-- `+ <section>: <item>` → add to section (loose match: "focus"→Priority Focus, "todo"/"do"→To Do, "idea"→Ideas, "follow"→Follow Up, "wait"→Waiting On). Append `<!-- added: YYYY-MM-DD -->` for age tracking.
+- `+ <section>: <item>` → add to section (loose match: "week"/"this"→This Week, "next"→Next Up, "idea"/"research"→Ideas & Research, "stake"/"request"→Stakeholder Requests, "wait"/"block"→Waiting On). Append `<!-- added: YYYY-MM-DD -->` for age tracking.
 - `rm <text>` → remove matching item (partial match OK, with confirmation)
 - `done <text>` → move to Done section
 - `move <text> to <section>` → move item between sections
@@ -116,9 +119,10 @@ Strip the word "backlog" from arguments, then:
 
 Examples:
 - `/tracker backlog` → show all
-- `/tracker backlog + todo: write user interview questions` → add
+- `/tracker backlog + week: write user interview questions` → add to This Week
+- `/tracker backlog + idea: explore push notification patterns` → add to Ideas
 - `/tracker backlog done interview questions` → mark done
-- `/tracker backlog move "interview" to follow` → move to Follow Up
+- `/tracker backlog move "interview" to next` → move to Next Up
 
 Keep output minimal.
 
