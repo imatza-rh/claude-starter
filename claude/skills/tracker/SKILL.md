@@ -62,7 +62,7 @@ Morning overview combining tracker state into a single view.
 
 ## Backlog Snapshot
 <!-- Show non-empty sections with item counts only.
-     Example: "Priority Focus: 2 | To Do: 5 | Ideas: 3" -->
+     Example: "This Week: 2 | Next Up: 5 | Ideas & Research: 3" -->
 
 ## Needs Attention
 <!-- Flag: stale daily items (open items from previous days),

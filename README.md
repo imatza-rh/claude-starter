@@ -11,8 +11,8 @@ Paste all 5 lines at once and hit Enter:
 
 ```
 cd ~/Downloads
-curl -L https://github.com/imatza-rh/claude-starter/archive/refs/heads/main.zip -o claude-starter.zip
-unzip -o claude-starter.zip
+curl -sL https://github.com/imatza-rh/claude-starter/archive/refs/heads/main.zip -o claude-starter.zip
+unzip -qo claude-starter.zip
 cd claude-starter-main
 bash setup.sh
 ```
@@ -29,7 +29,7 @@ A web app running locally on your Mac with five views:
 
 **Daily Log** - Your today list. Add tasks, check them off. Anything left open carries forward to tomorrow.
 
-**Backlog** - The bigger picture. Organized into sections: Priority Focus, To Do, Ideas, Follow Up, Waiting On. Drag items between sections as things evolve.
+**Backlog** - The bigger picture. Organized into sections: This Week, Next Up, Ideas & Research, Stakeholder Requests, Waiting On. Drag items between sections as things evolve.
 
 **Topics** - For work that spans multiple days. Think of these as mini-workspaces - a product launch, a hiring round, a feature spec. Each topic has its own tasks, notes, links, and open questions.
 
